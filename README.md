@@ -13,3 +13,7 @@
 
 ### Azurerm
 - https://www.nealshah.dev/posts/2020/05/terraform-for-azure-deploying-multiple-vms-with-multiple-managed-disks/
+
+
+## Cloud
+- https://www.densify.com/resources/top-cloud-priorities
