@@ -17,3 +17,4 @@
 
 ## Cloud
 - https://www.densify.com/resources/top-cloud-priorities
+- https://www.densify.com/wp-content/uploads/densify-whitepaper-top-cloud-priorities.pdf
