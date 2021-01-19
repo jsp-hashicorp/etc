@@ -11,6 +11,9 @@
 - https://www.digitalocean.com/community/conceptual_articles/infrastructure-as-code-explained
 - https://wiki.gccollab.ca/Technology_Trends/Infrastructure_as_Code
 
+### Ent/Cloud
+- Cost Estimation related: https://github.com/peytoncasper/tint
+
 ### Azurerm
 - https://www.nealshah.dev/posts/2020/05/terraform-for-azure-deploying-multiple-vms-with-multiple-managed-disks/
 
