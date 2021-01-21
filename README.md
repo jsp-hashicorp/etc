@@ -26,3 +26,6 @@
 
 ## Git
 - https://backlog.com/git-tutorial/kr/
+
+## powerpoint
+- https://plus.youexec.com/resources/all
