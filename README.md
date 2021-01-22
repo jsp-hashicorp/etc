@@ -29,3 +29,10 @@
 
 ## powerpoint
 - https://plus.youexec.com/resources/all
+
+
+##
+https://erfpt.ealps.shinshu-u.ac.jp/
+https://erfoundation.org/wordpress/graded-readers/
+https://elt.oup.com/student/readersleveltest/?cc=kr&selLanguage=ko
+https://m.blog.naver.com/happyboire/221758729496
