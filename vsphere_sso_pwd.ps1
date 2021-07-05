@@ -19,8 +19,8 @@ param (
  write-output "Vault Server: $vaultserver"
  write-output "Vault Token: $vaulttoken"
 
-# Connect to vCenter or ESXi Host and enumerate hosts to be updated
-    $JSON="{ `"allow_repeat`": true,`"allow_uppercase`": true, `"digits`": `"1`",`"length`": `"10`",`"symbols`": `"1`"} }"
+# 신규 비밀 번호 생성
+$JSON="{ `"allow_repeat`": true,`"allow_uppercase`": true, `"digits`": `"1`",`"length`": `"10`",`"symbols`": `"1`"} }"
 $jsondata =  Invoke-RestMethod -Headers @{'X-Vault-Token' = $vaulttoken} -Method POST -Body $JSON -Uri $vaultserver/v1/gen/password 
 write-output "VMhost : $vcenter"
 if($?) {
@@ -30,10 +30,16 @@ if($?) {
 
    if($?) {
         write-host "Connecting to $vcenter..."
+        # 비밀 번호 변경 대상 서버 접속
         Connect-SsoAdminServer -Server $vcenter -User $vcenteruser -Password $currentpwd -SkipCertificateCheck
         write-host "Changing $vcenteruser password on $vcenter"
+        # 비밀 번호 변경을 위해 SecureString으로 변경
         $NewPwd = ConvertTo-SecureString $newpw -AsPlainText -Force
+        # 로그인한 사용자 비밀번호 변경
         Set-SsoSelfPersonUserPassword -Password $NewPwd
+        $JSON="{ `"options`": { `"max_versions`": 10 }, `"data`": { `"password`": `"$newpw`" } }"
+        # Vault에서 신규 비밀 번호 저장    
+        Invoke-RestMethod -Headers @{'X-Vault-Token' = $vaulttoken} -Method Post -Body $JSON -Uri $vaultserver/v1/systemcreds/data/esxihosts/$vcenter
         Disconnect-SsoAdminServer -Server $Global:DefaultSsoAdminServers[0]
         if($?) {
             Write-Output "$vcenteruser password was stored in Vault and updated on ESXi host - $vcenter"
