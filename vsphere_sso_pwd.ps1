@@ -9,6 +9,7 @@
 param (
     [Parameter(Mandatory=$true)][string]$vcenter,
     [Parameter(Mandatory=$true)][string]$vcenteruser,
+    [Parameter(Mandatory=$true)][string]$currentpwd,
     [Parameter(Mandatory=$true)][string]$vaultserver,
     [Parameter(Mandatory=$true)][string]$vaulttoken
  )
@@ -19,7 +20,7 @@ param (
  write-output "Vault Token: $vaulttoken"
 
 # Connect to vCenter or ESXi Host and enumerate hosts to be updated
-    $JSON="{ `"allow_repeat`": true,`"allow_uppercase`": true, `"digits`": `"1`",`"length`": `"8`",`"symbols`": `"1`"} }"
+    $JSON="{ `"allow_repeat`": true,`"allow_uppercase`": true, `"digits`": `"1`",`"length`": `"10`",`"symbols`": `"1`"} }"
 $jsondata =  Invoke-RestMethod -Headers @{'X-Vault-Token' = $vaulttoken} -Method POST -Body $JSON -Uri $vaultserver/v1/gen/password 
 write-output "VMhost : $vcenter"
 if($?) {
@@ -29,11 +30,8 @@ if($?) {
 
    if($?) {
         write-host "Connecting to $vcenter..."
-        Connect-SsoAdminServer -Server $vcenter -User $vcenteruser -Password '}Wfe3Exj' -SkipCertificateCheck
+        Connect-SsoAdminServer -Server $vcenter -User $vcenteruser -Password $currentpwd -SkipCertificateCheck
         write-host "Changing $vcenteruser password on $vcenter"
-        #Remove-SsoPersonUser -User (Get-SsoPersonUser -Name $vcenteruser -Domain vsphere.local)
-        #New-SsoPersonUser -User $vcenteruser -Password $newpw -FirstName $vcenteruser -LastName 'vsphere.local'
-        #Set-SsoPersonUser -User $vcenteruser -Group 'Administrator' -Add
         $NewPwd = ConvertTo-SecureString $newpw -AsPlainText -Force
         Set-SsoSelfPersonUserPassword -Password $NewPwd
         Disconnect-SsoAdminServer -Server $Global:DefaultSsoAdminServers[0]
